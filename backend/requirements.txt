@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+mysqlclient
+python-dotenv
+pydantic-settings
+alembic
+python-jose[cryptography]
+passlib[bcrypt]
+openai
+redis
+python-socketio
+aioredis
+python-engineio

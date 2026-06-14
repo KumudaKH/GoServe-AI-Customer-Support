@@ -1,0 +1,72 @@
+import re
+from app.models.order import Order
+
+
+def track_order(db, user_id, user_query=None, order_id=None):
+    if db is None or user_id is None:
+        return "Order not found."
+
+    orders = db.query(Order).filter(Order.user_id == user_id).order_by(Order.created_at.desc()).all()
+
+    if not orders:
+        return "Order not found."
+
+    selected_order = None
+
+    if order_id is not None:
+        selected_order = next((order for order in orders if order.order_id == order_id), None)
+
+    if not selected_order and user_query:
+        id_match = re.search(r"\\border\\s*#?\\s*(\\d+)\\b", user_query.lower())
+        if id_match:
+            selected_order = next(
+                (order for order in orders if order.order_id == int(id_match.group(1))),
+                None,
+            )
+
+    if not selected_order and user_query:
+        query_lower = user_query.lower()
+        for order in orders:
+            product_name = (order.product_name or "").lower()
+            if product_name and product_name in query_lower:
+                selected_order = order
+                break
+
+    if selected_order:
+        return format_order(selected_order)
+
+    if len(orders) == 1:
+        return format_order(orders[0])
+
+    order_list = "\n".join(
+        f"{index + 1}. {order.product_name} (#{order.order_id})"
+        for index, order in enumerate(orders)
+    )
+
+    return (
+        "You have multiple orders:\n\n"
+        f"{order_list}\n\n"
+        "Please specify which order."
+    )
+
+
+def format_order(order):
+    expected_delivery = (
+        order.expected_delivery.isoformat()
+        if getattr(order, "expected_delivery", None)
+        else "Unknown"
+    )
+
+    return f"""
+Product: {order.product_name}
+
+Status: {order.status}
+
+Carrier: {order.carrier or 'Unknown'}
+
+Tracking: {order.tracking_number or 'Unknown'}
+
+Current Location: {order.current_location or 'Unknown'}
+
+Estimated Delivery: {expected_delivery}
+"""
