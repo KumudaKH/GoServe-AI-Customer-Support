@@ -1,4 +1,5 @@
-# ✨ Unique Features
+# E-commerce Project (Scaffold)
+** ✨ Unique Features
 
 * 🤖 **AI-Powered Customer Support**
 
