@@ -1,5 +1,5 @@
-# E-commerce Project (Scaffold)
-** ✨ Unique Features
+# E-commerce Project (GoServe)
+
 
 * 🤖 **AI-Powered Customer Support**
 
@@ -66,7 +66,7 @@
 * Payment gateway integration
 * Analytics dashboard for customer insights
  give best github readme and add a unique feature from project first in chat itself dont add to vscode
-# E-commerce Project (Scaffold)
+_________________________________________________________
 
 This repository contains the initial project structure for an e-commerce application.
 
