@@ -4,6 +4,7 @@ sqlalchemy
 mysqlclient
 python-dotenv
 pydantic-settings
+email-validator
 alembic
 python-jose[cryptography]
 passlib[bcrypt]
